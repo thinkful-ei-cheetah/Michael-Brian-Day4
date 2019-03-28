@@ -1,15 +1,23 @@
 "use strict";
 
-function handlecatClicks() {
-  $(".thumbnails").on("click", "img", function(event) {
-    event.stopPropagation();
-    const targetCat = $(this).attr("src");
-    const otherCat = $(this).attr("alt");
-
-    $(".hero img")
-      .attr("src", targetCat)
-      .attr("alt", otherCat);
-  });
+function updateHeroImg(target) {
+  const hero = $('.hero img');
+  hero.attr('src', target.attr('src'));
+  hero.attr('alt', target.attr('rel'));
 }
 
-$(handlecatClicks);
+$(function () {
+
+  $(".thumbnails").on("click", "img", function(event) {
+    const targetCat = $(this);
+    updateHeroImg(targetCat);
+  });
+  
+  $('.thumbnails').on('keyup', 'a', function(event) {
+    if (event.which === 13) {
+      const targetCat = $(this).find('img');
+      updateHeroImg(targetCat);
+    }
+  });
+  
+});
